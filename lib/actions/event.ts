@@ -14,7 +14,7 @@ type formData = {
 export async function createEventAction(formData: formData) {
   const session = await getSession();
   if (!session.data?.user.id) throw new Error("No userId located");
-  const userId = session.data.user.id;
+  const userId = String(session.data.user.id);
   const input = parseCreateEvent(formData);
 
   try {
@@ -35,8 +35,9 @@ export async function createEventAction(formData: formData) {
 
 function parseCreateEvent(formData: formData) {
   const title = String(formData.title ?? "").trim();
+
   if (title.length < 3 || title.length > 120) {
-    throw new Error("Tiel must be between 3 and 120 characters.");
+    throw new Error("Title must be between 3 and 120 characters.");
   }
 
   const description = String(formData.description ?? "").trim();

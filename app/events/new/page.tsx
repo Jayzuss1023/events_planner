@@ -20,15 +20,23 @@ import {
 import z from "zod";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useTRPC } from "@/trpc/client";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1),
   description: z.string(),
   location: z.string(),
-  eventDate: z.string(),
+  eventDate: z.string().min(1),
 });
 
 export default function NewEventPage() {
+  const router = useRouter();
+  const trpc = useTRPC();
+  const createMutation = useMutation(
+    trpc.event.createEvent.mutationOptions({}),
+  );
   const form = useForm({
     defaultValues: {
       title: "",
@@ -40,8 +48,19 @@ export default function NewEventPage() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      createEventAction(value);
-      form.reset();
+      try {
+        const data = await createMutation.mutateAsync({
+          title: value.title,
+          description: value.description,
+          location: value.location,
+          eventDate: value.eventDate,
+        });
+        router.push(`/events/${data.id}`);
+
+        form.reset();
+      } catch (err) {
+        console.log("AN ERROR OCCURED", err);
+      }
     },
   });
   return (
