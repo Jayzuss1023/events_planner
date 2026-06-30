@@ -22,7 +22,13 @@ const inviteFormSchema = z.object({
   eventId: z.string(),
 });
 
-export function EventDetailContent({ eventId }: { eventId: string }) {
+export function EventDetailContent({
+  eventId,
+  url,
+}: {
+  eventId: string;
+  url: string;
+}) {
   const router = useRouter();
   const trpc = useTRPC();
   const createInvite = useMutation(
@@ -50,9 +56,8 @@ export function EventDetailContent({ eventId }: { eventId: string }) {
       } catch (err) {}
     },
   });
-
   const inviteUrl = event.inviteToken
-    ? `${process.env.VERCEL_URL}/invite/${event.inviteToken}`
+    ? `${url}/invite/${event.inviteToken}`
     : null;
 
   return (
@@ -90,7 +95,7 @@ export function EventDetailContent({ eventId }: { eventId: string }) {
             Share this link with guests so they can RSVP without creating an
             account.
           </p>
-          {inviteUrl ? (
+          {event.inviteToken ? (
             <div className="rounded-md border border-border bg-surface p-3 text-sm">
               {inviteUrl}
             </div>
