@@ -57,7 +57,7 @@ export function EventDetailContent({
     },
   });
   const inviteUrl = event.inviteToken
-    ? `https://events-planner-cyan.vercel.app/invite/${event.inviteToken}`
+    ? `${process.env.NEXT_PUBLIC_VERCEL_URL}/invite/${event.inviteToken}`
     : null;
 
   return (
