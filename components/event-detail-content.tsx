@@ -16,12 +16,14 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { useRouter } from "next/navigation";
 
 const inviteFormSchema = z.object({
   eventId: z.string(),
 });
 
 export function EventDetailContent({ eventId }: { eventId: string }) {
+  const router = useRouter();
   const trpc = useTRPC();
   const createInvite = useMutation(
     trpc.event.createInviteActionLink.mutationOptions({}),
@@ -44,6 +46,7 @@ export function EventDetailContent({ eventId }: { eventId: string }) {
     onSubmit: async ({}) => {
       try {
         await createInvite.mutateAsync({ eventId });
+        router.refresh();
       } catch (err) {}
     },
   });
