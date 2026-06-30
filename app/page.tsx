@@ -20,7 +20,7 @@ export default function Home() {
         <h1 className="text-4xl font-semibold tracking-tight">
           Plan events and track RSVPs fast
         </h1>
-        <p className="max-w-2xl text-[var(--muted-foreground)]">
+        <p className="max-w-2xl text-muted-foreground">
           Create events, share a unique invite link, and watch attendee status
           update in real-time with Going, Maybe, and Not going counts.
         </p>
