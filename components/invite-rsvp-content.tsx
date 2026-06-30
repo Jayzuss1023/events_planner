@@ -86,9 +86,9 @@ export function InviteRsvpContent({
 
   const event = data.event;
   return (
-    <div>
+    <div className="mx-auto w-full max-w-2xl">
       <Card>
-        <CardHeader>
+        <CardHeader className="space-y-3">
           <Badge variant="secondary" className="w-fit">
             RSVP
           </Badge>
@@ -106,7 +106,9 @@ export function InviteRsvpContent({
         </CardHeader>
         <CardContent>
           {submitted ? (
-            <p>Thanks. Your RSVP has been recorded (or updated)</p>
+            <p className="mb-4 rounded-md border border-accent/50 bg-accent/15 p-3 text-sm text-[#e9dbff]">
+              Thanks. Your RSVP has been recorded (or updated)
+            </p>
           ) : null}
           <form
             id="rsvp-form"

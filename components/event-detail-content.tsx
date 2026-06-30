@@ -131,7 +131,7 @@ export function EventDetailContent({ eventId }: { eventId: string }) {
               </TableHeader>
               <TableBody>
                 {rsvps.map((rsvp) => (
-                  <TableRow>
+                  <TableRow key={rsvp.id}>
                     <TableCell>{rsvp.name}</TableCell>
                     <TableCell>{rsvp.email}</TableCell>
                     <TableCell>
