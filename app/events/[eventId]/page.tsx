@@ -1,6 +1,5 @@
 import { EventDetailContent } from "@/components/event-detail-content";
-import { getSession } from "@/lib/auth/server";
-import { prisma } from "@/lib/prisma";
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 
 export default async function EventDetailsPage({
   params,
@@ -8,22 +7,15 @@ export default async function EventDetailsPage({
   params: Promise<{ eventId: string }>;
 }) {
   const { eventId } = await params;
+  prefetch(
+    trpc.event.getEventByIdandUser.queryOptions({
+      eventId: eventId,
+    }),
+  );
 
-  const session = await getSession();
-  if (!session.data?.user.id) throw new Error("no user");
-  const ownerUserId = session.data.user.id;
-  const row = await prisma.event.findFirst({
-    where: { id: eventId, ownerUserId: ownerUserId },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      location: true,
-      eventDate: true,
-      invite: { select: { token: true } },
-      rsvps: { select: { status: true } },
-    },
-  });
-
-  return <EventDetailContent ownerUserId={ownerUserId} eventId={eventId} />;
+  return (
+    <HydrateClient>
+      <EventDetailContent eventId={eventId} />
+    </HydrateClient>
+  );
 }
