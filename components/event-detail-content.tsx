@@ -49,7 +49,7 @@ export function EventDetailContent({ eventId }: { eventId: string }) {
   });
 
   const inviteUrl = event.inviteToken
-    ? `${process.env.NEXT_PUBLIC_APP_URL ?? process.env.VERCEL_URL}/invite/${event.inviteToken}`
+    ? `${process.env.VERCEL_URL}/invite/${event.inviteToken}`
     : null;
 
   return (
