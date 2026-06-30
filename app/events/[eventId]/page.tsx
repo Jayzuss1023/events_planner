@@ -13,7 +13,7 @@ export default async function EventDetailsPage({
     }),
   );
 
-  const inviteUrl = `${process.env.VERCEL_URL}`;
+  const inviteUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 
   return (
     <HydrateClient>
